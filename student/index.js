@@ -50,5 +50,5 @@ app.delete("/student", (req, res) => {});
 app.patch("/student", (req, res) => {});
 
 app.listen(4000, () => {
-  console.log("Listening on 4000");
+  console.log("Server listening on port 4000");
 });

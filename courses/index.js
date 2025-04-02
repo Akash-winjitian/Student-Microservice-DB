@@ -20,7 +20,7 @@ app.post("/student/:id/course", async (req, res) => {
 
   const course = coursesByStudentId[req.params.id] || [];
 
-  course.push({ id: courseId, subject });
+  course.push({ id: courseId, subject, status: "pending" });
 
   coursesByStudentId[req.params.id] = course;
 
@@ -30,7 +30,8 @@ app.post("/student/:id/course", async (req, res) => {
       data: {
         id: courseId,
         subject,
-        studentId: req.params.id
+        studentId: req.params.id,
+        status: "pending",
       },
     })
     .catch((err) => {
@@ -40,11 +41,36 @@ app.post("/student/:id/course", async (req, res) => {
   res.status(201).send(course);
 });
 
-app.post("/events", (req, res) => {
-    console.log('Received Event', req.body.type);
+app.post("/events", async (req, res) => {
+  console.log("Received Event", req.body.type);
 
-    res.send({});
-})
+  const { type, data } = req.body;
+
+  if (type === "CourseModerated") {
+    const { studentId, id, status, subject } = data;
+
+    const course = coursesByStudentId[studentId];
+
+    const sub = course.find((sub) => {
+      return sub.id === id;
+    });
+    sub.status = status;
+
+    await axios.post("http://localhost:4005/events", {
+      type: "CourseUpdated",
+      data: {
+        id,
+        subject,
+        studentId,
+        status,
+      },
+    }).catch((err) => {
+      console.log(err.message);
+    });;
+  }
+
+  res.send({});
+});
 
 app.delete("/student/:id/course", (req, res) => {});
 
