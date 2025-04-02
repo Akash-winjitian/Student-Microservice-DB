@@ -7,6 +7,10 @@ app.use(bodyParser.json());
 
 const events = [];
 
+process.on("uncaughtException", function (err) {
+  console.log(err);
+});
+
 app.post("/events", (req, res) => {
   const event = req.body;
 
