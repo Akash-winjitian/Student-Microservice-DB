@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-depl
+spec: 
+  #number of pods which we want to create running some particular image(replicas)
+  replicas: 1
+  selector:
+    matchLabels:
+      app: student
+  template:
+    metadata:
+      lables:
+        app: student
+    spec:
+      containers:
+        - name: student
+          image: akash/student:0.0.1
+
+# To apply this config file, we will run kubectl apply -f student-depl.yaml
