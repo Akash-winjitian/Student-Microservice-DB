@@ -25,7 +25,7 @@ app.post("/student/:id/course", async (req, res) => {
   coursesByStudentId[req.params.id] = course;
 
   await axios
-    .post("http://localhost:4005/events", {
+    .post("http://event-bus-srv:4005/events", {
       type: "CourseCreated",
       data: {
         id: courseId,
@@ -56,7 +56,7 @@ app.post("/events", async (req, res) => {
     });
     sub.status = status;
 
-    await axios.post("http://localhost:4005/events", {
+    await axios.post("http://event-bus-srv:4005/events", {
       type: "CourseUpdated",
       data: {
         id,

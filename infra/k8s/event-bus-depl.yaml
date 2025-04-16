@@ -1,34 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: student-depl
+  name: event-bus-depl
 spec: 
   #number of pods which we want to create running some particular image(replicas)
   replicas: 1
   selector:
     matchLabels:
-      app: student
+      app: event-bus
   template:
     metadata:
       labels:
-        app: student
+        app: event-bus
     spec:
       containers:
-        - name: student
-          image: akashtheboss/student
+        - name: event-bus
+          image: akashtheboss/event-bus
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: student-clusterip-srv
+  name: event-bus-srv
 spec:
   selector:
-    app: student
+    app: event-bus
   ports:
-    - name: student
+    - name: event-bus
       protocol: TCP
-      port: 4000
-      targetPort: 4000
-
-# To apply this config file, we will run kubectl apply -f student-depl.yaml
+      port: 4005
+      targetPort: 4005
+# To apply this config file, we will run kubectl apply -f event-bus-depl.yaml

@@ -1,0 +1,57 @@
+apiVersion: skaffold/v4beta3
+kind: Config
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    # - image: akashtheboss/client
+    #   context: client
+    #   docker:
+    #     dockerfile: Dockerfile
+    #   sync:
+    #     manual: 
+    #     - src: 'src/**/*.js'
+    #       dest: .
+    - image: akashtheboss/courses
+      context: courses
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual: 
+        - src: '*.js'
+          dest: .
+    - image: akashtheboss/event-bus
+      context: event-bus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual: 
+        - src: '*.js'
+          dest: .
+    - image: akashtheboss/moderation
+      context: moderation
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual: 
+        - src: '*.js'
+          dest: .
+    - image: akashtheboss/student
+      context: student
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual: 
+        - src: '*.js'
+          dest: .
+    - image: akashtheboss/query
+      context: query
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual: 
+        - src: '*.js'
+          dest: .

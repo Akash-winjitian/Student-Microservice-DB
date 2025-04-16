@@ -14,7 +14,7 @@ app.get("/student", (req, res) => {
   res.send(student);
 });
 
-app.post("/student", async (req, res) => {
+app.post("/student/create", async (req, res) => {
   const id = randomBytes(4).toString("hex");
 
   const { name } = req.body;
@@ -25,7 +25,7 @@ app.post("/student", async (req, res) => {
   };
 
   await axios
-    .post("http://localhost:4005/events", {
+    .post("http://event-bus-srv:4005/events", {
       type: "StudentCreated",
       data: {
         id,
@@ -50,5 +50,6 @@ app.delete("/student", (req, res) => {});
 app.patch("/student", (req, res) => {});
 
 app.listen(4000, () => {
+  console.log("Update trial");
   console.log("Server listening on port 4000");
 });

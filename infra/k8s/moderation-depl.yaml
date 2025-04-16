@@ -1,34 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: student-depl
+  name: moderation-depl
 spec: 
   #number of pods which we want to create running some particular image(replicas)
   replicas: 1
   selector:
     matchLabels:
-      app: student
+      app: moderation
   template:
     metadata:
       labels:
-        app: student
+        app: moderation
     spec:
       containers:
-        - name: student
-          image: akashtheboss/student
+        - name: moderation
+          image: akashtheboss/moderation
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: student-clusterip-srv
+  name: moderation-srv
 spec:
   selector:
-    app: student
+    app: moderation
   ports:
-    - name: student
+    - name: moderation
       protocol: TCP
-      port: 4000
-      targetPort: 4000
-
-# To apply this config file, we will run kubectl apply -f student-depl.yaml
+      port: 4003
+      targetPort: 4003
+# To apply this config file, we will run kubectl apply -f moderation-depl.yaml
